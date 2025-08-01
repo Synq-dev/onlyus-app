@@ -1,4 +1,4 @@
-name: Android Build
+name: Build Android APK
 
 on:
   push:
@@ -11,22 +11,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
-      - name: Install Capacitor CLI
-        run: npm install -g @capacitor/cli
-
-      - name: Initialize Capacitor
+      - name: Install dependencies
         run: |
           npm install
-          npx cap init "OnlyUs" "com.onlyus.app" --web-dir=.
-          npx cap add android
+          npm install @capacitor/android
+
+      - name: Create capacitor config
+        run: |
+          echo '{
+            "appId": "com.onlyus.app",
+            "appName": "OnlyUs",
+            "webDir": ".",
+            "bundledWebRuntime": false
+          }' > capacitor.config.json
+
+      - name: Add Android platform
+        run: npx cap add android
 
       - name: Build APK
         run: |
