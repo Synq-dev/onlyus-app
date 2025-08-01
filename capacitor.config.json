@@ -1,0 +1,6 @@
+{
+  "appId": "com.onlyus.app",
+  "appName": "OnlyUs",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}
